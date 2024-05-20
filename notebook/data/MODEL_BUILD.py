@@ -36,6 +36,10 @@ print(y.head())
 num_features = x.select_dtypes(exclude="object").columns
 cat_features = x.select_dtypes(include="object").columns
 
+print(num_features)
+print("="*35)
+print(cat_features)
+
 numeric_transformer = StandardScaler()
 oh_transformer = OneHotEncoder()
 
