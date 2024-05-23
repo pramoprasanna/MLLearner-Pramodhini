@@ -34,7 +34,6 @@ class ModelTrainer:
                 train_arr[:, -1],
                 test_arr[:, :-1],
                 test_arr[:, -1]
-
             )
             models = {
                 "Random Forest Regressor": RandomForestRegressor(),
@@ -46,7 +45,6 @@ class ModelTrainer:
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
                 "AdaBoost Regressor": AdaBoostRegressor(),
             }
-
             params = {
                 "Decision Tree Regressor": {
                     'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
@@ -82,9 +80,7 @@ class ModelTrainer:
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8, 16, 32, 64, 128, 256]
                 }
-
             }
-
             model_report:dict = evaluate_models(X_train=x_train,
                                                 Y_train=y_train,
                                                 X_Test=x_test,
@@ -92,7 +88,6 @@ class ModelTrainer:
                                                 models=models,params=params)
             # To get the best model score from Dict
             best_model_score = max(sorted(model_report.values()))
-
             #To get best model name from Dict
 
             best_model_name = list(model_report.keys())[
@@ -100,11 +95,11 @@ class ModelTrainer:
             ]
 
             best_model = models[best_model_name]
-
-            print(best_model)
+            #print(best_model)
 
             if best_model_score < 0.6:
                 raise CustomException("No BEST MODEL FOUND !")
+
             logging.info(f"Best found model on both training and testing dataset")
 
             save_object(

@@ -47,7 +47,8 @@ preprocessor = ColumnTransformer(
     [
         ("OneHotEncoder", oh_transformer, cat_features),
         ("StandardScaler", numeric_transformer, num_features),
-    ]
+    ],
+    ignore_missing=True
 )
 
 X = preprocessor.fit_transform(x)

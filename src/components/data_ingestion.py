@@ -12,9 +12,9 @@ from src.components.model_trainer import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
 
 
-@dataclass  #Decorator to define class variable
+@dataclass  # Decorator to define class variable
 class DataIngestionConfig:
-    #inputs to data ingestion component
+    # inputs to data ingestion component
     train_data_path: str = os.path.join('artifacts', "train.csv")
     test_data_path: str = os.path.join('artifacts', "test.csv")
     raw_data_path: str = os.path.join('artifacts', "data.csv")
@@ -25,12 +25,19 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
     def initiate_data_ingestion(self):
-        #Data extraction from DB can be called here from utils.py
+        # Data extraction from DB can be called here from utils.py
         logging.info("Entered the data ingestion method or component")
         try:
             # Can read the data from anywhere
             df = pd.read_csv('notebook/data/StudentsPerformance.csv')
             logging.info("Read the dataset as dataframe")
+            print(df.columns)
+
+            df.rename(columns={'race/ethnicity': 'race_ethnicity',
+                               'parental level of education': 'parental_level_of_education',
+                               'test preparation course': 'test_preparation_course', 'reading score': 'reading_score',
+                               'writing score': 'writing_score'}, inplace=True)
+
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
             logging.info("Train Test Split Initiated")
@@ -53,4 +60,3 @@ if __name__ == "__main__":
     train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
     modeltrainer = ModelTrainer()
     print(modeltrainer.initiate_model_training(train_arr, test_arr))
-

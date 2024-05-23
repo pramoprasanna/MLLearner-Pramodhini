@@ -29,9 +29,9 @@ class DataTransformation:
         this is function is responsible for data transformation
         '''
         try:
-            numerical_columns = ['reading score', 'writing score']
-            categorical_columns = ['gender', 'race/ethnicity', 'parental level of education', 'lunch',
-                                   'test preparation course']
+            numerical_columns = ['reading_score', 'writing_score']
+            categorical_columns = ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch',
+                                   'test_preparation_course']
             num_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="median")),
@@ -40,7 +40,7 @@ class DataTransformation:
 
             categorical_pipeline = Pipeline(
                 steps=[
-                    ("imputer", SimpleImputer(strategy="most_frequent")),
+                    ("imputer", SimpleImputer(strategy="most_frequent", fill_value="missing")),
                     ("one_hot_encoder", OneHotEncoder()),
                     ("scaler", StandardScaler(with_mean=False))
                 ])
@@ -66,7 +66,7 @@ class DataTransformation:
             logging.info("Obtaining preprocessing Object")
             preprocessing_obj = self.get_data_transformer_object()
             target_column_name = "math score"
-            numerical_columns = ['reading score', 'writing score']
+            numerical_columns = ['reading_score', 'writing_score']
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
             input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
